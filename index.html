@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    __MSG_title__
+  </title>
+  <!--### Browser App Framework dependencies (they must be loaded in below order): ###-->
+  <link rel="stylesheet" href="css/extlib/bootstrap.min.css">
+  <script src="javascripts/extlib/vue.js"></script>
+  <script src="javascripts/extlib/form-validator.js"></script>
+  <script src="javascripts/extlib/jquery-3.3.1.min.js"></script>
+  <script src="javascripts/extlib/tether.min.js"></script>
+  <script src="javascripts/extlib/bootstrap.min.js"></script>
+  <!--### A bundle of your favorite npm modules: ###-->
+  <script src="javascripts/browser-app-framework/bundle.js"></script>
+</head>
+
+<body class="container-fluid">
+  <!--###################### Nav ######################-->
+  <nav id="nav" class="row navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand" title="__MSG_title__">
+      __MSG_title__
+    </span>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#hoge?name=Akira&age=999">Hoge</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#foo">Foo</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!--###################### Role: "home" ######################-->
+  <div id="role-home" class="mt-2 d-none">
+    <div class="h4">Here is "home" role</div>
+    <div>{{ hello }}</div>
+  </div>
+  <!--###################### Role: "error" ######################-->
+  <div id="role-error" class="mt-2 d-none">
+    Error: {{ error }}
+  </div>
+  <!--###################### Role: "hoge" ######################-->
+  <div id="role-hoge" class="mt-2 d-none">
+    <div class="h4">Here is "hoge" role</div>
+    <form id="frm-hoge" class="col-12">
+      <div class="form-group row">
+        <label>__MSG_enterValidName__:</label>
+        <input type="text" name="name" v-model="name" class="form-control" required data-errmsg="__MSG_enterValidName__">
+      </div>
+      <div class="form-group row">
+        <label>__MSG_enterValidAge__:</label>
+        <input type="number" name="age" v-model:number="age" class="form-control" required min="0" data-errmsg="__MSG_enterValidAge__">
+      </div>
+      <div class="form-group row">
+        <button type="button" id="btn-hoge" class="btn btn-primary">OK</button>
+      </div>
+    </form>
+  </div>
+  <!--###################### Role: "foo" ######################-->
+  <div id="role-foo" class="mt-2 d-none">
+    <div class="h4">Here is "foo" role</div>
+    <button type="button" id="btn-foo" class="btn btn-primary">Go hoge with some param</button>
+  </div>
+</body>
+<!--### Browser App Framework Suites (they must be loaded in below order): ###-->
+<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
+<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-ext.js"></script>
+
+</html>

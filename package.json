@@ -1,0 +1,19 @@
+{
+  "name": "browser-app-framework",
+  "version": "0.1.0",
+  "main": "index.html",
+  "scripts": {
+    "browserify:compress": "browserify javascripts/browser-app-framework/index.js | uglifyjs > javascripts/browser-app-framework/bundle.js",
+    "browserify": "browserify javascripts/browser-app-framework/index.js -o javascripts/browser-app-framework/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib"
+  },
+  "description": "",
+  "dependencies": {
+    "querystring": "^0.2.0"
+  }
+}
