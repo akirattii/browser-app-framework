@@ -156,6 +156,29 @@ app.onAppLoad = function() {
   app.changeRole(app.parseLink(window.location.hash));
 };
 
+// emit event
+app.emit = function(eventKey, ...args) {
+  _emit(app.roles, eventKey, args);
+
+  function _emit(roles, eventKey, args) {
+    const keys = Object.keys(roles);
+    for (let len = keys.length, i = 0; i < len; i++) {
+      let role = roles[keys[i]];
+      _emitBySubRole(role, eventKey, args);
+    }
+  }
+
+  function _emitBySubRole(role, eventKey, args) {
+    const keys = Object.keys(role);
+    for (let len = keys.length, i = 0; i < len; i++) {
+      let subRole = role[keys[i]];
+      if (subRole && subRole.$emit)
+        subRole.$emit(eventKey, args);
+    }
+  }
+};
+
+
 // load roles js
 app.loadRoles = function(cb) {
   console.log("[BAF] loading roles...");

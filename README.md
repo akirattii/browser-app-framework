@@ -286,6 +286,27 @@ var title = app.getMessage("title"); // "HELLO APP"
 var hello = app.getMessage("hello", ["World"]); // "Hello %s!" => "Hello World!"
 ```
 
+### Custom event
+
+This framework uses `vue2`'s [Event API](https://vuejs.org/v2/api/index.html#Instance-Methods-Events), so you can emit and handle your custom event using vue2's way.  
+  
+Emit an event with some values on somewhere `app` instance referable, like this:
+```
+// emit!
+app.emit("update-current-time", { currentTime: Date.now() }, { name: "akira" });
+```
+
+Handle it on role page, like this:
+```  
+/* custom event handler */
+vm.$on('update-current-time', function(msg) {
+  // use received `msg` (array object) as you like!
+  // `msg` looks like this: `[{ currentTime: 1234567890 }, { name: "akira" }]`
+});
+```
+
+
+
 
 ### Development cycle
 

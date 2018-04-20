@@ -5,12 +5,20 @@ app.roles["hoge"] = function() {
     data: {
       name: null,
       age: null,
+      currentTime: null,
     },
     methods: {
       refresh,
     },
   });
 
+  /* custom event handler */
+  vm.$on('update-current-time', function(msg) {
+    const data = msg[0];
+    vm.currentTime = data.currentTime;
+  });
+
+  /* form validator */
   const validator = new FormValidator("#frm-hoge");
 
   $(document).on("click", "#btn-hoge", function(e) {

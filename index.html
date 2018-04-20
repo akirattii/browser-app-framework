@@ -44,6 +44,8 @@
   <div id="role-home" class="mt-2 d-none">
     <div class="h4">Here is "home" role</div>
     <div>{{ hello }}</div>
+    <div>currentTime: {{ currentTime }}</div>
+    <button id="btn-home-tick" class="btn btn-primary">Ticking start!</button>
   </div>
   <!--###################### Role: "error" ######################-->
   <div id="role-error" class="mt-2 d-none">
@@ -52,6 +54,7 @@
   <!--###################### Role: "hoge" ######################-->
   <div id="role-hoge" class="mt-2 d-none">
     <div class="h4">Here is "hoge" role</div>
+    <div>currentTime: {{ currentTime }}</div>
     <form id="frm-hoge" class="col-12">
       <div class="form-group row">
         <label>__MSG_enterValidName__:</label>
@@ -69,6 +72,7 @@
   <!--###################### Role: "foo" ######################-->
   <div id="role-foo" class="mt-2 d-none">
     <div class="h4">Here is "foo" role</div>
+    <div>currentTime: {{ currentTime }}</div>
     <button type="button" id="btn-foo" class="btn btn-primary">Go hoge with some param</button>
   </div>
 </body>

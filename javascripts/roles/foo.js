@@ -4,10 +4,17 @@ app.roles["foo"] = function() {
     el: '#role-foo',
     data: {
       //
+      currentTime: null
     },
     methods: {
       refresh,
     },
+  });
+
+  /* custom event handler */
+  vm.$on('update-current-time', function(msg) {
+    const data = msg[0];
+    vm.currentTime = data.currentTime;
   });
 
   $(document).on("click", "#btn-foo", function(e) {
