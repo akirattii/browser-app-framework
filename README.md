@@ -49,11 +49,12 @@ And import them on your html like this:
   ...
   <!-- Dependencies for Browser App Framework: -->
   <link rel="stylesheet" href="css/extlib/bootstrap.min.css">
-  <script src="javascripts/extlib/vue.js"></script>
-  <script src="javascripts/extlib/form-validator.js"></script>
+  <link rel="stylesheet" href="css/extlib/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="css/app.css">
   <script src="javascripts/extlib/jquery-3.3.1.min.js"></script>
-  <script src="javascripts/extlib/tether.min.js"></script>
+  <script src="javascripts/extlib/popper.min.js"></script>
   <script src="javascripts/extlib/bootstrap.min.js"></script>
+  <script src="javascripts/extlib/vue.min.js"></script>
   ...
   <!-- Used by Browser App Framework: -->
   <script src="javascripts/browser-app-framework/bundle.js"></script>
@@ -124,31 +125,32 @@ Below is a typical frame of `index.html`:
   <meta charset="utf-8">
   ...
   <link rel="stylesheet" href="css/extlib/bootstrap.min.css">
-  <script src="javascripts/extlib/vue.js"></script>
-  <script src="javascripts/extlib/form-validator.js"></script>
+  <link rel="stylesheet" href="css/extlib/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="css/app.css">
   <script src="javascripts/extlib/jquery-3.3.1.min.js"></script>
-  <script src="javascripts/extlib/tether.min.js"></script>
+  <script src="javascripts/extlib/popper.min.js"></script>
   <script src="javascripts/extlib/bootstrap.min.js"></script>
+  <script src="javascripts/extlib/vue.min.js"></script>
   <script src="javascripts/browser-app-framework/bundle.js"></script>
 </head>
 
-<body class="container-fluid">
-  
-  <!-- navigation bar -->
-  <nav id="nav" class="row navbar navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<body>
+  <!--###################### Nav ######################-->
+  <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <span class="navbar-brand" title="__MSG_title__">__MSG_title__</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <span class="navbar-brand">
-      __MSG_title__
-    </span>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#home">Home</a>
+          <a class="nav-link" href="#home">
+          <i class="fa fa-home"></i>
+          __MSG_home__
+        </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#hoge?aaa=111&bbb=234">Hoge</a>
+          <a class="nav-link" href="#hoge?name=Akira&age=999">Hoge</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#foo">Foo</a>
@@ -156,28 +158,66 @@ Below is a typical frame of `index.html`:
       </ul>
     </div>
   </nav>
-
-  <!-- page role: error (Required!) -->
-  <div id="role-error" class="mt-3 d-none">
-    Error!
-  </div>
   
-  <!-- page role: home -->
-  <div id="role-home" class="role mt-2 d-none">
-    ...
-  </div>
+  <!--###################### Header ######################-->
+  <header id="header"></header>
 
-  <!-- page role: hoge -->
-  <div id="role-hoge" class="role mt-2 d-none">
-    ...
-  </div>
+  <!--###################### Main ######################-->
+  <main role="main" class="container-fluid">
 
-  <!-- page role: foo -->
-  <div id="role-foo" class="role mt-2 d-none">
-    ...
-  </div>
-  ...
+    <!--###################### Role: "error" ######################-->
+    <div id="role-error" class="mt-2 d-none">
+      Error: {{ error }}
+    </div>
+
+    <!--###################### Role: "home" ######################-->
+    <div id="role-home" class="mt-2 d-none">
+      ...
+    </div>
+    
+    <!--###################### Role: "hoge" ######################-->
+    <div id="role-hoge" class="mt-2 d-none">
+      ...
+    </div>
+
+    <!--###################### Role: "foo" ######################-->
+    <div id="role-foo" class="mt-2 d-none">
+      ...
+    </div>
+  
+  </main>
+  
+  <!--###################### Footer ######################-->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="row col-12 text-muted text-center">
+        <span class="col-12">&copy; __MSG_title__</span>
+      </div>
+    </div>
+  </footer>
+
 </body>
+
+<script>
+<!-- bootstrap custom form validator. fires when clicking type="submit" button on ".needs-validation" form -->  
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
 
 <!-- Browser App Framework Suites (must load them in below order) -->
 <script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
@@ -320,53 +360,35 @@ $ npm run browserify
 
 **Step 1:** Add `<div id="role-hoge">...</div>` on `index.html`:
 ```
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8">
+...
+<body>
   ...
-  <!--** load required external libraries **-->
-  <link rel="stylesheet" href="css/extlib/bootstrap.min.css">
-  <script src="javascripts/extlib/vue.js"></script>
-  <script src="javascripts/extlib/form-validator.js"></script>
-  <script src="javascripts/extlib/jquery-3.3.1.min.js"></script>
-  <script src="javascripts/extlib/tether.min.js"></script>
-  <script src="javascripts/extlib/bootstrap.min.js"></script>
-  <script src="javascripts/browser-app-framework/bundle.js"></script>
-</head>
 
-<body class="container-fluid">
-
-  <!--### Role: "error" (required) ###-->
-  <div id="role-error" class="mt-3 d-none">
-    Error!
-  </div>
-
-  <!--### Role: "hoge" ###-->
-  <div id="role-hoge">
-    <div class="h4">This is "hoge" role</div>
-    <form id="frm-hoge" class="col-12">
+  <!--###################### Role: "hoge" ######################-->
+  <div id="role-hoge" class="mt-2 d-none">
+    <div class="h4">Here is "hoge" role</div>
+    <div>currentTime: {{ currentTime }}</div>
+    <form id="frm-hoge" class="col-12 needs-validation" novalidate>
       <div class="form-group row">
-        <label>__MSG_enterYourName__:</label>
-        <input type="text" name="name" v-model="name" class="form-control" required data-errmsg="__MSG_enterYourName__">
+        <label>__MSG_enterValidName__:</label>
+        <input type="text" name="name" v-model="name" class="form-control" required>
+        <div class="valid-feedback">__MSG_looksGood__</div>
+        <div class="invalid-feedback">__MSG_enterValidName__</div>
       </div>
       <div class="form-group row">
-        <label>__MSG_enterYourAge__:</label>
-        <input type="number" name="age" v-model:number="age" class="form-control" required min="0" data-errmsg="__MSG_enterYourAge__">
+        <label>__MSG_enterValidAge__:</label>
+        <input type="number" name="age" v-model:number="age" class="form-control" required min="0" data-errmsg="__MSG_enterValidAge__">
+        <div class="valid-feedback">__MSG_looksGood__</div>
+        <div class="invalid-feedback">__MSG_enterValidAge__</div>
       </div>
       <div class="form-group row">
-        <button type="button" id="btn-hoge" class="btn btn-primary">OK</button>
+        <button type="submit" id="btn-hoge" class="btn btn-primary">OK</button>
       </div>
     </form>
   </div>
   ...
 </body>
-<!--** load Browser App Framework (IMPORTANT: must be imported in below order) **-->
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-ext.js"></script>
-
-</html>
+...
 ```
 
 **Step 2:** Create `javascripts/roles/hoge.js`:
@@ -378,37 +400,43 @@ app.roles["hoge"] = function() {
     data: {
       name: null,
       age: null,
+      currentTime: null,
     },
     methods: {
-      // NOTE: it is called when this page are shown. 
-      // `refresh` function is called from the framework.
-      refresh: function(param) {
-        // `param` made from querystring on omnibar is passed: 
-        console.log("refresh:", param);
-      },
+      refresh,
     },
   });
 
-  const validator = new FormValidator("#frm-hoge"); // built-in simple form validator
+  /* custom event handler */
+  vm.$on('update-current-time', function(msg) {
+    const data = msg[0];
+    vm.currentTime = data.currentTime;
+  });
 
-  $(document).on("click", "#btn-hoge", function(e) {
-    // you can check validity by built-in form validator just before posting them:
-    if (!validator.reportValidity()) return false;
-    alert("OK!");
+  $(document).on("submit", "#frm-hoge", function(e) {
+    alert(`Hi, ${vm.name}.`);
     return false;
   });
 
-  return { "default": vm }; // "default" vue instance is necessary
+  function refresh(param) {
+    console.log("refresh:", param);
+    vm.name = param.name;
+    vm.age = param.age;
+  }
+
+  return { "default": vm };
 }();
 ```
 
 **Step 3:** Append some message resources to `locale/en.js` (and other locale js):
 ```
+/* DO NOT change variable name `messageResources` */
 const messageResources = {
-  "title": "HELLO APP",
+  "title": "Browser App Framework Example",
   "hello": "Hello %s!",
-  "enterYourName": "Enter your name",
-  "enterYourAge": "Enter your age",
+  "looksGood": "Looks good!",
+  "enterValidName": "Enter your name",
+  "enterValidAge": "Enter your age",
 };
 ```
 

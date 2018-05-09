@@ -18,22 +18,16 @@ app.roles["hoge"] = function() {
     vm.currentTime = data.currentTime;
   });
 
-  /* form validator */
-  const validator = new FormValidator("#frm-hoge");
-
-  $(document).on("click", "#btn-hoge", function(e) {
-    if (!validator.reportValidity()) return false;
+  $(document).on("submit", "#frm-hoge", function(e) {
     alert(`Hi, ${vm.name}.`);
     return false;
   });
-
 
   function refresh(param) {
     console.log("refresh:", param);
     vm.name = param.name;
     vm.age = param.age;
   }
-
 
   return { "default": vm };
 }();
