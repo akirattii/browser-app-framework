@@ -1,9 +1,10 @@
 {
   "name": "browser-app-framework",
-  "version": "0.3.0",
-  "description": "A simple browser application framework",
+  "version": "0.4.0",
+  "description": "",
   "main": "index.html",
   "scripts": {
+    "serve": "serve",
     "browserify:compress": "browserify javascripts/browser-app-framework/index.js | uglifyjs > javascripts/browser-app-framework/bundle.js",
     "browserify": "browserify javascripts/browser-app-framework/index.js -o javascripts/browser-app-framework/bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,10 +12,8 @@
   "author": "Akira Tanaka <tanaka.akira.2006@gmail.com>",
   "license": "ISC",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "serve": "^6.5.6"
   },
-  "description": "",
-  "dependencies": {
-    "querystring": "^0.2.0"
-  }
+  "dependencies": {}
 }

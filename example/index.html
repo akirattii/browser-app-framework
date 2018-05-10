@@ -15,7 +15,7 @@
   <script src="javascripts/extlib/bootstrap.min.js"></script>
   <script src="javascripts/extlib/vue.min.js"></script>
   <!--### A bundle of your favorite npm modules: ###-->
-  <script src="javascripts/browser-app-framework/bundle.js"></script>
+  <!-- <script src="../lib/bundle.js"></script> -->
 </head>
 
 <body>
@@ -41,12 +41,11 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="/auth/logout">
-          <i class="fa fa-sign-out-alt"></i>
-        __MSG_logout__
+        <li class="nav-item">
+          <a class="nav-link" href="#settings">
+          <i class="fa fa-cog" title="__MSG_settings__"></i>
         </a>
-        </li> -->
+        </li>
       </ul>
     </div>
   </nav>
@@ -93,6 +92,10 @@
       <div>currentTime: {{ currentTime }}</div>
       <button type="button" id="btn-foo" class="btn btn-primary">Go hoge with some param</button>
     </div>
+    <!--###################### Role: "settings" ######################-->
+    <div id="role-settings" class="mt-2 d-none">
+      <div class="h4">Here is "settings" role</div>
+    </div>
   </main>
   <!--###################### Footer ######################-->
   <footer id="footer" class="footer">
@@ -124,7 +127,16 @@
 })();
 </script>
 <!--### Browser App Framework Suites (they must be loaded in below order): ###-->
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-ext.js"></script>
+<script type="text/javascript" src="../lib/browser-app-framework.js"></script>
+<script type="text/javascript">
+// `app` lives in global.
+const app = new BrowserAppFramework({
+  rootPath: "./javascripts",
+  i18nAvailables: ["en", "ja"],
+  loglevel: 1,
+});
+// console.log(app);
+</script>
+<!-- <script type="text/javascript" src="../lib/browser-app-framework-ext.js"></script> -->
 
 </html>

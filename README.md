@@ -4,15 +4,31 @@ A simple browser application framework, supporting modern browser only.
 
 ## Example
 
-This project is the very example. `index.html` of this project is a main page of this example. Try it on browser.
+`example/index.html` of this project is a main page of this example. Try it on browser.
+
+## Run example
+
+### `http:` protocol:
+
+```
+$ npm install -g serve
+$ serve -p 8000
+
+# or ...
+
+$ python -m SimpleHTTPServer 8000
+```
+
+Then open http://localhost:8000/example/ with browser.
+
+### `file:` protocol:
+
+Just open `index.html` file with browser.  
+
+**CAUTION:** This method might have any restriction of browser.
 
 
 ## Make your app
-
-### Prerequisities
-
-- [`browserify`](https://github.com/browserify/browserify) installed
-- [`UglifyJS2`](https://github.com/mishoo/UglifyJS2) installed
 
 ### Dependencies
 
@@ -21,25 +37,16 @@ This framework requires:
 - [`vue`](https://github.com/vuejs/vue) (v2)
 - [`jquery`](https://github.com/jquery/jquery) (v3)
 - [`bootstrap`](https://github.com/twbs/bootstrap) (v4) and its dependencies 
-- [`querystring`](https://www.npmjs.com/package/querystring) (npm module)
 
-**NOTE:** This framework uses `querystring` npm module, so you must set `global.querystring = require('querystring');` on `javascripts/browser-app-framework/index.js` and browserify it to generate `javascripts/browser-app-framework/bundle.js` even if you never use any npm modules.
 
 ### Installing
 
-Clone this project:
+Copy `lib/browser-app-framework.js` into your project's external library folder:
 
 ```
 $ git clone git@github.com:akirattii/browser-app-framework.git
 $ cd browser-app-framework/
-$ cp -R javascripts/browser-app-framework /path/to/your_project/public_js_folder/
-```
-
-Browserify to generate `bundle.js` and copy it into your project:
-
-```
-$ npm run browserify
-$ cp javascripts/browser-app-framework/bundle.js /path/to/your_project/public_js_foloder/
+$ cp lib/browser-app-framework.js /path/to/your/project/public/extlib/
 ```
 
 And import them on your html like this:
@@ -55,22 +62,25 @@ And import them on your html like this:
   <script src="javascripts/extlib/popper.min.js"></script>
   <script src="javascripts/extlib/bootstrap.min.js"></script>
   <script src="javascripts/extlib/vue.min.js"></script>
-  ...
-  <!-- Used by Browser App Framework: -->
-  <script src="javascripts/browser-app-framework/bundle.js"></script>
 </head>
-
-...
-
-<!-- Browser App Framework Suites (must load them in below order): -->
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-ext.js"></script>
-
+<body>
+  ...
+  <!-- Browser App Framework: -->
+  <script type="text/javascript" src="./extlib/browser-app-framework.js"></script>
+  <script type="text/javascript">
+  // An instance named `app` is a convention, lives in global:
+  const app = new BrowserAppFramework({
+    rootPath: "./javascripts",
+    i18nAvailables: ["en", "ja"],
+    loglevel: 1,
+  }); 
+  </script>
 </html>
 ```
 
 #### Project structure
 
+Both `roles/` and `locales/` folders are used by this framework.
 Typically your public project structure might look like this:
 
 ```
@@ -79,12 +89,6 @@ Typically your public project structure might look like this:
   ├ index.html
   │
   ├ javascripts/
-  │    │ 
-  │    ├ browser-app-framework/
-  │    │    ├ browser-app-framework-base.js
-  │    │    ├ browser-app-framework-ext.js
-  │    │    ├ index.js
-  │    │    └ bundle.js
   │    │
   │    ├ roles/
   │    │    ├ <role>.js
@@ -96,18 +100,13 @@ Typically your public project structure might look like this:
   │    │    ├ ...
   │    │    
   │    └ extlib/
+  │          ├ browser-app-framework.js
   │          ├ jquery.min.js
   │          ├ ...
   │
   ├ css/
   │
-  ├ package.json
-  │
-  └ npm_modules/
-      ├ querystring/
-      ├ ...
-
-
+  └ package.json
 ```
 
 
@@ -131,7 +130,6 @@ Below is a typical frame of `index.html`:
   <script src="javascripts/extlib/popper.min.js"></script>
   <script src="javascripts/extlib/bootstrap.min.js"></script>
   <script src="javascripts/extlib/vue.min.js"></script>
-  <script src="javascripts/browser-app-framework/bundle.js"></script>
 </head>
 
 <body>
@@ -219,58 +217,47 @@ Below is a typical frame of `index.html`:
 })();
 </script>
 
-<!-- Browser App Framework Suites (must load them in below order) -->
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-ext.js"></script>
+<!-- Browser App Framework -->
+<script type="text/javascript" src="./extlib/browser-app-framework.js"></script>
+<script type="text/javascript">
+// An instance named `app` is a convention, lives in global:
+const app = new BrowserAppFramework({
+  rootPath: "./javascripts",
+  i18nAvailables: ["en", "ja"],
+  loglevel: 1,
+}); 
+</script>
 
 </html>
 ```
-
-#### bundle.js 
-
-You can use your favorite npm modules to code `require(...)` on `javascripts/browser-app-framework/index.js` and browserify it.
-Even if you never use any npm modules, you must browserfiy `javascripts/browser-app-framework/index.js` to generate `javascripts/browser-app-framework/bundle.js` because this framework requires `querystring` npm module.  
-  
-To generate `javascripts/browser-app-framework/bundle.js` from `javascripts/browser-app-framework/index.js`:
-
-```
-$ npm run browserify
-# ...or
-$ npm run browserify:compress
-```
-
-Then import `javascripts/browser-app-framework/bundle.js` by setting `script` tag on `index.html` like this:
-```
-...
-<head>
-  ...
-  <script src="javascripts/browser-app-framework/bundle.js"></script>
-</head>
-...
-```
-
-Then you can use them as global instances.
 
 #### Load Browser App Framework
 
-`javascripts/browser-app-framework/browser-app-framework-base.js` is a base of this framework. When it is loaded, `window.app` instance is created.
-To make the instance properly, you must load them on `index.html` in below order:
+Load it like this:
 
 ```
 ...
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-base.js"></script>
-<script type="text/javascript" src="javascripts/browser-app-framework/browser-app-framework-ext.js"></script>
+<script type="text/javascript" src="./extlib/browser-app-framework.js"></script>
+<script type="text/javascript">
+// An instance named `app` is a convention, lives in global:
+const app = new BrowserAppFramework({
+  rootPath: "./javascripts",
+  i18nAvailables: ["en", "ja"],
+  loglevel: 1,
+}); 
+</script>
+
 </html>
 ```
 
-Below is files that you have to customize by yourself depending on your app:
+##### Parameters:
 
-- `browser-app-framework-base.js`  
-  For your app's localization, you can append some locales into `app.i18nAvailables` array on `browser-app-framework-base.js`. Below is an example you append *"ja"* (Japanese):
-  `app.i18nAvailables = ["en", "ja"];`  
-  On this case, keep in mind you must also append a locale file named `locales/ja.js`.
-- `browser-app-framework-ext.js`  
-  Using this file, you can extend `app` object depending on your app. For example, you can add `app.yourCustomLogic = function(){...}` into this file to use its function in your app.
+- `rootPath`: a project's root path for this framework, in which `roles/` and `locales/` exist. 
+- `i18nAvailables`: Locales your project supports. Defaults to "en". If you add new locale, you must add new locale js file too.
+- `loglevel`: if set loglevel up to 1, this framework's logs output on console. 
+
+**CAUTION:** The instance's name `app` is a convention. Don't change this!
+
 
 ### Roles
 
@@ -286,15 +273,14 @@ Relatinal files:
 
 Locale files must be contained under the directory `locales/<language>.js`.
 The message resource of the localization is loaded as a global variable `window.messageResources`.
-A part of `language` of `locales/<language>.js` comes from browser's `navigator.language`. If an user cannot get an appropriate `<language>.js`, it is set a default file which is `locales/en.js`. Default setting is coded at below line on `browser-app-framework-base.js`:
-```
-app.i18nAvailables = ["en"]; // "en" is default locale!
-```
-
-If you add a locale file into the `locales/`, for instance `ja`, you must also add `"ja"` into the `app.i18nAvailables` on `javascripts/browser-app-framework-base.js` like this:
+A part of `language` of `locales/<language>.js` comes from browser's `navigator.language`. If an user cannot get an appropriate `<language>.js`, it is set `locales/en.js` as default. You can make some locales availeble when you create the instance:
 
 ```
-app.i18nAvailables = ["en", "ja"];
+const app = new BrowserAppFramework({
+  rootPath: "./javascripts",
+  i18nAvailables: ["en", "ja"], // <= here!
+  loglevel: 1,
+});
 ```
 
 Below is a template of `locales/<language>.js`:
@@ -415,7 +401,7 @@ $ npm run browserify
 ...
 ```
 
-**Step 2:** Create `javascripts/roles/hoge.js`:
+**Step 2:** Create `roles/hoge.js`:
 ```
 app.roles["hoge"] = function() {
 
